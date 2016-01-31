@@ -49,7 +49,7 @@ PanelAppLauncherMenu.prototype = {
         		let actionName = this._actions[i];
         		this.addAction(appinfo.get_action_name(actionName), Lang.bind(this, this._launchAction, actionName));
         	}
-        	let subMenu = new PopupMenu.PopupSubMenuMenuItem(_("More..."));
+        	let subMenu = new PopupMenu.PopupSubMenuMenuItem(_("More")+"...");
         	targetMenu = subMenu.menu;
         	this.addMenuItem(subMenu);
 		}
