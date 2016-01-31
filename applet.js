@@ -41,25 +41,19 @@ PanelAppLauncherMenu.prototype = {
         Applet.AppletPopupMenu.prototype._init.call(this, launcher, orientation);
 
 		let appinfo = this._launcher.getAppInfo();
-		let actions = appinfo.list_actions();
-		this._actions = [];
 		let targetMenu = this;
-		if (actions.length > 0) {
-        	Main._logInfo(appinfo.get_name() + ": " + actions.length + " actions");
-        	for (i = 0; i < actions.length; i++) {
-        		let actionName = actions[i];
-        		let action = new PanelAppLauncherAction(actionName, this._launcher);
-        		this._actions.push(action);
-        		this.addAction(appinfo.get_action_name(actionName), Lang.bind(action, action.launch));
+		
+		this._actions = appinfo.list_actions();
+		if (this._actions.length > 0) {
+        	for (i = 0; i < this._actions.length; i++) {
+        		let actionName = this._actions[i];
+        		this.addAction(appinfo.get_action_name(actionName), Lang.bind(this, this._launchAction, actionName));
         	}
         	let subMenu = new PopupMenu.PopupSubMenuMenuItem(_("More..."));
         	targetMenu = subMenu.menu;
         	this.addMenuItem(subMenu);
 		}
-		else {
-        	Main._logInfo(appinfo.get_name() + ": no actions");
-		}
-		Main._logInfo(appinfo.get_name() + " menu: " + targetMenu);
+		
 	    targetMenu.addAction(_("Launch"), Lang.bind(this, this._onLaunchActivate));
 	    targetMenu.addAction(_("Add"), Lang.bind(this, this._onAddActivate));
 	    targetMenu.addAction(_("Edit"), Lang.bind(this, this._onEditActivate));
@@ -81,22 +75,11 @@ PanelAppLauncherMenu.prototype = {
 
     _onEditActivate: function(event) {
         this._launcher.launchersBox.showAddLauncherDialog(event.get_time(), this._launcher);
+    },
+    
+    _launchAction: function(event, name) {
+    	this._launcher.launchAction(name);
     }
-}
-
-function PanelAppLauncherAction(name, launcher) {
-	this._init(name, launcher);
-}
-
-PanelAppLauncherAction.prototype = {
-	_init: function(name, launcher) {
-		this._name = name;
-		this._launcher = launcher;
-	},
-	
-	launch: function(event) {
-		this._launcher.launchAction(name);
-	}
 }
 
 function PanelAppLauncher(launchersBox, app, appinfo, orientation, panel_height, scale) {
@@ -238,7 +221,7 @@ PanelAppLauncher.prototype = {
         this._iconBox.width = allocation.x2 - allocation.x1;
         this._iconBox.height = allocation.y2 - allocation.y1;
         this._animateIcon(0);
-        this.appinfo.launch_action(name, null);
+		this.getAppInfo().launch_action(name, null);
     },
 
     getId: function() {
