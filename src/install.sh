@@ -1,5 +1,5 @@
 #!/bin/bash
-TARGETDIR="/usr/share/cinnamon/applets/panel-launchers@cinnamon.org"
+TARGETDIR="${HOME}/.local/share/cinnamon/applets/panel-launchers-improved@trolleyyy"
 BAKDIR="${TARGETDIR}.bak"
 if [ ! -d "${BAKDIR}" ]
 then

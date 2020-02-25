@@ -1,6 +1,6 @@
 {
- "uuid": "panel-launchers@cinnamon.org",
- "name": "Panel launchers",
+ "uuid": "panel-launchers-improved@trolleyyy",
+ "name": "Panel launchers Improved",
  "description": "Launch applications from the panel",
  "icon": "gnome-panel-launcher",
  "role": "panellauncher",
